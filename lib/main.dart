@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences_flutter/api/shared_preferences.dart';
 
 void main() {
   runApp(const MyApp());
@@ -62,8 +63,14 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    SharedPref.setInt(1);
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
@@ -71,17 +78,17 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-   
         child: Column(
-     
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-           Row(children: [
-             ElevatedButton(onPressed: () {
-               
-             }, child: const Text("Set Integer")),
-             ElevatedButton(onPressed: () {}, child: const Text("Get Integer"))
-           ],)
+            Row(
+              children: [
+                ElevatedButton(
+                    onPressed: () {}, child: const Text("Set Integer")),
+                ElevatedButton(
+                    onPressed: () {}, child: const Text("Get Integer"))
+              ],
+            )
           ],
         ),
       ),

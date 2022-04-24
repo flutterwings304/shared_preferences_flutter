@@ -1,13 +1,15 @@
+import 'dart:convert';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shared_preferences_flutter/constants/value.dart';
 
 class SharedPref {
-  static Future getBool() async {
+  static Future setBool() async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setBool(boolSharedPreference, true);
   }
 
-  static Future<bool> setBool() async {
+  static Future<bool> getBool(bool value) async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getBool(boolSharedPreference) ?? false;
   }
@@ -28,14 +30,14 @@ class SharedPref {
     return prefs.getString(listSharedPreference) ?? "";
   }
 
-  static Future setString() async {
+  static Future setString(String value) async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.setString(stringSharedPreference, "");
+    return prefs.setString(stringSharedPreference, value);
   }
 
-  static Future setInt() async {
+  static Future setInt(int val) async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.setInt(intSharedPreference, 12);
+    return prefs.setInt(intSharedPreference, val);
   }
 
   static Future<int> getInt() async {
@@ -43,9 +45,9 @@ class SharedPref {
     return prefs.getInt(intSharedPreference) ?? 0;
   }
 
-  static Future setDouble() async {
+  static Future setDouble(double val) async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.setDouble(doubleSharedPreference, 0.0);
+    return prefs.setDouble(doubleSharedPreference, val);
   }
 
   static Future<double> getDouble() async {
@@ -53,15 +55,19 @@ class SharedPref {
     return prefs.getDouble(doubleSharedPreference) ?? 0.0;
   }
 
+  static Future setMap(Map value) async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.setString(mapSharedPreference, jsonEncode(value));
+  }
+
+  static Future<Map> getMap() async {
+    final prefs = await SharedPreferences.getInstance();
+    return jsonDecode(prefs.getString(mapSharedPreference) ?? "") ?? {};
+  }
+
   static Future clearSharedPref() async {
     final prefs = await SharedPreferences.getInstance();
 
     await prefs.clear();
-  }
-
-  static Future reload() async {
-    final prefs = await SharedPreferences.getInstance();
-    var x = prefs.reload().asStream();
-    //  x.listen((event) { print(event.toString()); });
   }
 }
